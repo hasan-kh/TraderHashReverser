@@ -1,0 +1,9 @@
+*.xlsx
+*xls
+
+files/
+build/
+__pychace__/
+.idea
+
+*.pyc

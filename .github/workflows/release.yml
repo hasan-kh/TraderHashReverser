@@ -1,0 +1,39 @@
+name: Build and Release Windows EXE
+
+on:
+  push:
+    tags:
+      - 'v*'    # Triggers on tags like v1.0, v1.1
+  workflow_dispatch:    # Optional manual trigger
+
+jobs:
+  build:
+    name: Build EXE and Release
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Build EXE
+      run: |
+        pyinstaller --onefile --windowed --icon=icon.ico --name=TraderHashReverser.exe main.py
+
+    - name: Create Release and Upload Artifact
+      uses: softprops/action-gh-release@v1
+      with:
+        name: TraderHashReverser ${{ github.ref_name }}
+        tag_name: ${{ github.ref_name }}
+        files: dist/TraderHashReverser.exe
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
