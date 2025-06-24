@@ -1,8 +1,12 @@
 import hashlib
 import time
 import pandas as pd
+import multiprocessing
 from multiprocessing import Pool, cpu_count
 
+# Set start method to 'spawn' for Windows compatibility with PyInstaller
+if multiprocessing.get_start_method(allow_none=True) != "spawn":
+    multiprocessing.set_start_method("spawn", force=True)
 
 def sha256_hash(s: str) -> str:
     """Hash s to sha256"""
