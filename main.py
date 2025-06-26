@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import pandas as pd
 import threading
+import multiprocessing
 import logging
 from io import StringIO
 
@@ -176,6 +177,7 @@ class ExcelHashGUI:
 
 
 if __name__ == "__main__":
+    multiprocessing.freeze_support()
     root = tk.Tk()
     gui = ExcelHashGUI(root)
     root.mainloop()
